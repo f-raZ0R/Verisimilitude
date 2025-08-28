@@ -1,0 +1,17 @@
+{
+  "id": "vtude",
+  "name": "Verisimilitude",
+  "display_name": "Verisimilitude",
+  "author": [ "Athebyne" ],
+  "description": "If two guys were on the moon and one killed the other with a rock would that be fucked up or what",
+  "prefix": "vtude",
+  "main_file": "vtudemain.lua",
+  "priority": 1,
+  "badge_colour": "4E1C29",
+  "badge_text_colour": "DB5E26",
+  "version": "0.0.0g",
+  "dependencies": [
+    "Steamodded (>=1.0.0~BETA-0404a)",
+    "libcredit"
+  ]
+}
