@@ -3,7 +3,6 @@ SMODS.Atlas({key = "VTudeConsumables", path = "Consumables.png", px = 71, py = 9
 
 
 
---TODO: Credit Squeakitties. How do I give credit in Balatro help
 SMODS.Joker {
     key = "scratchedjoker",
     pos = { x = 0, y = 0 },
@@ -22,6 +21,52 @@ SMODS.Joker {
             "Hands of five cards with {C:attention}ONLY 3, 4 and Ace{} are a new hand type {C:attention}Full Home{}",
         },
     }
+}
+
+SMODS.Joker {
+    key = 'infinitejoker',
+    loc_txt = {
+        name = 'Infinite Joker Glitch',
+        text = {
+            "Add a permanent copy of every {C:attention}#2#{}th card drawn",
+            "to deck and draw it to {C:attention}hand{}",
+            "{C:inactive}(#1#/#2#){}",
+        }
+    },
+    config = { extra = {draw_tally = 0, draws = 20 } },
+    rarity = 1,
+    atlas = 'VTudeJokers',
+    pos = { x = 1, y = 0 },
+    cost = 5,
+    blueprint_compat = true,
+    loc_vars = function(self, info_queue, card)
+        return { vars = { card.ability.extra.draw_tally, card.ability.extra.draws } }
+    end,
+    calculate = function(self, card, context)
+        if context.hand_drawn
+                or context.other_drawn
+                and not context.blueprint then
+            for _, playing_card in ipairs(context.hand_drawn or context.other_drawn) do
+                card.ability.extra.draw_tally = card.ability.extra.draw_tally + 1
+                if card.ability.extra.draw_tally >= card.ability.extra.draws then
+                    local _card = copy_card(playing_card)
+                    _card:add_to_deck()
+                    G.deck.config.card_limit = G.deck.config.card_limit + 1
+                    table.insert(G.playing_cards, _card)
+                    G.hand:emplace(_card)
+                    card.ability.extra.draw_tally = card.ability.extra.draw_tally - card.ability.extra.draws
+                    G.E_MANAGER:add_event(Event({
+                        func = function()
+                            _card:start_materialize()
+                            return true
+                        end
+                    }))
+                    SMODS.calculate_effect({message = localize('k_copied_ex'), colour = G.C.CHIPS}, card)
+                    SMODS.calculate_context({ playing_card_added = true, cards = { _card } })
+                end
+            end
+        end
+    end
 }
 
 SMODS.PokerHandPart {
