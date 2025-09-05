@@ -1,7 +1,28 @@
 SMODS.Atlas({key = "VTudeJokers", path = "Jokers.png", px = 71, py = 95, atlas_table = "ASSET_ATLAS"}):register()
 SMODS.Atlas({key = "VTudeConsumables", path = "Consumables.png", px = 71, py = 95, atlas_table = "ASSET_ATLAS"}):register()
 
-
+--THIS IS STUPID
+--SMODS.ConsumableType {
+--    key = "vtude_GrilledChicken",
+--    primary_colour = HEX("964616"),
+--    secondary_colour = HEX("964616"),
+--    collection_rows = { 1, 1 },
+--    shop_rate = 0
+--}
+--
+--SMODS.Consumable {
+--    key = 'grilledchicken',
+--    set = 'vtude_GrilledChicken',
+--    atlas = 'VTudeConsumables',
+--    hidden = true,
+--    loc_txt = {
+--        name = 'Grilled Chicken',
+--        text = {
+--            "WIP",
+--        }
+--    },
+--    pos = { x = 0, y = 1},
+--}
 
 SMODS.Joker {
     key = "scratchedjoker",
@@ -18,7 +39,7 @@ SMODS.Joker {
     loc_txt = {
         name = "Scratched Joker",
         text = {
-            "Hands of five cards with {C:attention}ONLY 3, 4 and Ace{} are a new hand type {C:attention}Full Home{}",
+            "Hands of five cards with {C:attention}ONLY 3s, 4s and Aces{} are a new hand type {C:attention}Full Home{}",
         },
     }
 }
@@ -65,6 +86,52 @@ SMODS.Joker {
                     SMODS.calculate_context({ playing_card_added = true, cards = { _card } })
                 end
             end
+        end
+    end
+}
+
+SMODS.Joker {
+    key = "planetarytravel",
+    pos = { x = 2, y = 0 },
+    rarity = 2,
+    blueprint_compat = false,
+    cost = 7,
+    atlas = 'VTudeJokers',
+    config = { },
+    loc_txt = {
+        name = "Planetary Travel",
+        text = {
+            "[WIP] DOES NOT DO ANYTHING YET",
+            "Using a {C:planet}Planet{} card will also level up Adjacent Hands",
+        },
+    }
+}
+
+SMODS.Joker {
+    key = "evilhiker",
+    pos = { x = 3, y = 0 },
+    rarity = 3,
+    blueprint_compat = false,
+    cost = 8,
+    atlas = 'VTudeJokers',
+    config = { },
+    loc_txt = {
+        name = "Placeholdery Mc Placeface",
+        text = {
+            "[WIP] Doesn't Work",
+            "5 Card Hands with ONLY cards you've never played before are {C:attention}Straight Flushes{}",
+        },
+    },
+    calculate = function(self, card, context)
+        if context.evaluate_poker_hand then
+            if #context.full_hand < 5 then
+                return {}
+            end
+            local is_unplayed = true
+            for _, card in ipairs(context.full_hand) do
+                if card.base.times_played > 0 then is_unplayed = false end
+            end
+            if is_unplayed then return { replace_scoring_name = "Straight Flush" } end
         end
     end
 }

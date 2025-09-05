@@ -12,7 +12,9 @@ return {
     misc = {
         dictionary = {
             vtude_sun_q = "Sun?",
-            vtude_sky_q = "Sky?"
+            vtude_sky_q = "Sky?",
+            k_vtude_grilledchicken = "Grilled Chicken",
+            b_vtude_grilledchicken_cards = "Grilled Chicken"
         },
         poker_hands = {
             vtude_fullhome = 'Full Home',
