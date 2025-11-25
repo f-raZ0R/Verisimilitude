@@ -1,6 +1,6 @@
 SMODS.Atlas({key = "VTudeJokers", path = "Jokers.png", px = 71, py = 95, atlas_table = "ASSET_ATLAS"}):register()
 SMODS.Atlas({key = "VTudeConsumables", path = "Consumables.png", px = 71, py = 95, atlas_table = "ASSET_ATLAS"}):register()
-
+SMODS.load_file("hooks.lua")()
 --THIS IS STUPID
 --SMODS.ConsumableType {
 --    key = "vtude_GrilledChicken",
@@ -101,7 +101,6 @@ SMODS.Joker {
     loc_txt = {
         name = "Planetary Travel",
         text = {
-            "[WIP] DOES NOT DO ANYTHING YET",
             "Using a {C:planet}Planet{} card will also level up Adjacent Hands",
         },
     }
